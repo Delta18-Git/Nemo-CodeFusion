@@ -1,3 +1,66 @@
-<button><a href="http://127.0.0.1:8000/income_input/">Income_input</a></button>
-<button><a href="http://127.0.0.1:8000/outgo_input/">Outgo_input</a></button>
-<button><a href="http://127.0.0.1:8000/view_balance/">view_balance</a></button>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet">
+  <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        background: #181818;
+        color: #fff;
+        overflow: hidden;
+    }
+    .primary-btn {
+    padding: 0.7rem 1rem;
+    height: 2.7rem;
+    display: block;
+    border: 0;
+    border-radius: 2px;
+    font-weight: 500;
+    background: #037d8352;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.5s;
+    }
+  
+    .primary-btn:hover {
+        background-color: #090b5c;
+    }
+    a{
+        display: block;
+        color: #fff;
+        text-decoration: none;
+        
+    }
+    .space{
+        margin-top: 10%; 
+    }
+    .larg{
+        font-size: 200%;
+    }
+
+
+  </style>
+</head>
+<body>
+    <div class="logo"><img src='logo.png' alt="logo.png" ></div>
+    <div style="margin-top: 5%;"></div>
+    <div class="larg"><strong>Welcome User!</strong></div><!--change if we want-->
+    <table>
+        <tr>
+            <td><button class="primary-btn"><a href="http://127.0.0.1:8000/income_input/">Income</a></button></td>
+            <td> <button class="primary-btn"><a href="http://127.0.0.1:8000/outgo_input/">Outflow</a></button></td>
+            <td><button class="primary-btn"><a href="http://127.0.0.1:8000/view_balance/">View Balance</a></button></td>
+        </tr>
+    </table>
+    </div>
+</body>
+
+

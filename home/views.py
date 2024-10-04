@@ -101,7 +101,7 @@ def Income_input(request):
     return render(request, 'income.html')
 
 @login_required(login_url='home')
-def Outgo_input(request):
+def Outgo_input(request): #TODO REciept upload
     user = request.user
     if request.method == "POST":
         amount = request.POST.get('Famount')
