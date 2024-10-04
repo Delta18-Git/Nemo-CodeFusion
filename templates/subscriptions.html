@@ -1,0 +1,16 @@
+<form method="POST">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td><label>Sub_amount_per_month</label></td>
+        <td><input type="Number" name='FSamount' class="text-input" /></td>
+      </tr>
+      <tr>
+        <td><label>Number_of_months</label></td>
+        <td> <input type="Number" name='Ftenure' class="text-input" /></td>
+      </tr>
+
+
+    </table>
+      <button type="submit">Submit</button>
+  </form>

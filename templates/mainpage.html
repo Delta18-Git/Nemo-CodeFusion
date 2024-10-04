@@ -14,20 +14,26 @@
         background: #181818;
         color: #fff;
         overflow: hidden;
+        margin-left: 4%;
+    }
+    button{
+        white-space: nowrap;
     }
     .primary-btn {
-    padding: 0.7rem 1rem;
-    height: 2.7rem;
+    padding: 1.5rem 3rem;
+    height: 6rem;
     display: block;
     border: 0;
-    border-radius: 2px;
+    border-radius: 4px;
     font-weight: 500;
+    font-size: 150%;
     background: #037d8352;
     color: #fff;
     text-decoration: none;
     cursor: pointer;
     text-align: center;
     transition: all 0.5s;
+    box-sizing: border-box;
     }
   
     .primary-btn:hover {
@@ -45,21 +51,37 @@
     .larg{
         font-size: 200%;
     }
-
+    td{
+        padding-right: 125px;
+        border-spacing: 10%;
+        border-collapse: separate;
+    }
 
   </style>
 </head>
 <body>
     <div class="logo"><img src='logo.png' alt="logo.png" ></div>
-    <div style="margin-top: 5%;"></div>
+    <div style="margin-top: 10%;"></div>
     <div class="larg"><strong>Welcome User!</strong></div><!--change if we want-->
+    <div class=space></div>
     <table>
         <tr>
             <td><button class="primary-btn"><a href="http://127.0.0.1:8000/income_input/">Income</a></button></td>
             <td> <button class="primary-btn"><a href="http://127.0.0.1:8000/outgo_input/">Outflow</a></button></td>
             <td><button class="primary-btn"><a href="http://127.0.0.1:8000/view_balance/">View Balance</a></button></td>
         </tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr>
+            <td><button class ='primary-btn'><a href= "http://127.0.0.1:8000/loan/">Loans</a></button></td>
+            <td><button class='primary-btn'><a href="http://127.0.0.1:8000/subscriptions/">Subscriptions</a></button></td>
+        </tr>
     </table>
+
+    <div style="margin-bottom:100%"></div>
     </div>
 </body>
 

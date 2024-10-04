@@ -89,13 +89,13 @@ def mainpage(request):
 def Income_input(request):
     user = request.user
     if request.method == "POST":
-        amount = request.POST.get('Famount')
+        amount = Decimal(request.POST.get('Famount'))
         dtime = request.POST.get('FDtime')
         source = request.POST.get('Fsource')
         comments = request.POST.get('Fcomments')
         bal=Balance.objects.get(user=user)
-        bal.amount+=amount
-        Balance.save()
+        bal.amount=bal.amount + amount
+        bal.save()
         inc = Income.objects.create(user=user, Amount=amount, DTime=dtime, Source=source, comments=comments)
         
     return render(request, 'income.html')
@@ -122,9 +122,24 @@ def View_balance(request):
     context={'bal':bal}
     return(render(request,'viewbalance.html',context))
 
+@login_required(login_url='home')
+def loan(request):
+    user=request.user
+    if request.method=="POST":
+        loan_amount = request.POST.get('FLamount')
+        annual_interest_rate= request.POST.get('Finterest')
+        loan_tenure = request.POST.get('Ftenure')
+        loan=Loan.objects.create(user=user,loan_amount=loan_amount,loan_tenure=loan_tenure,annual_interest_rate=annual_interest_rate)
+    return(render(request,'loan.html'))
 
 
-#the moment you open, you see your in, your out, 
+@login_required(login_url='home')
+def subscriptions(request):
+    if request.method=="POST":
+        sub_amount = request.POST.get('FSamount')
+        sub_tenure= request.POST.get('Ftenure')
+        sub=Subscriptions.objects.create(user=request.user,sub_amount=sub_amount,sub_tenure=sub_tenure)
+    return(render(request,'subscriptions.html'))
 
-#THINK OF MORE UNIQUE FEAUTURES! WE NEED CREATIVITY AND NOVELTY AND APPLICABILITY (doability too)
-#BALANCE, INPUT, OUTPUT, TAXES, (Accounts?), Groups/clubs (head oversees expenses, approves?) User can create club/group and be the admin of it and change who the admins are. )
+
+# TAXES, (Accounts?), Groups/clubs (head oversees expenses, approves?) User can create club/group and be the admin of it and change who the admins are. )

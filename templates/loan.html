@@ -1,0 +1,30 @@
+<form method="POST">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td><label>Loan_amount</label></td>
+        <td><input type="Number" name='FLamount' class="text-input" /></td>
+      </tr>
+      <tr>
+        <td><label>Tenure_in_years</label></td>
+        <td> <input type="Number" name='Ftenure' class="text-input" /></td>
+      </tr>
+      <tr>
+        <td><label>interest</label></td>
+        <td><input type="Number" name='Finterest'class="text-input" /></td>
+      </tr>
+
+
+
+    </table>
+
+      
+
+      
+      
+      
+      
+      
+      
+      <button type="submit">Submit</button>
+  </form>

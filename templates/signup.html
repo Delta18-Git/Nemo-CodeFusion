@@ -1,15 +1,15 @@
 <!--NOTE: FEEL FREE TO MAKE CHANGES ACCORDINGLY, ESP FILE NAMES AND STUFF.-->
 {% extends 'mainhack.html' %}
-{% load static %}
+
 {% block main_content %}
   <title>Signup</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto400,700&display=swap">
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Montserrat', sans-serif;
-      color: #333;
+      font-family: 'Roboto', sans-serif;
+      color: #181818;
       
     }
 
@@ -19,7 +19,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(255, 255, 255, 0.5); 
+      background-color: #181818;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -40,11 +40,12 @@
     .container {
       max-width: 90%; 
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
-      background-color: #fff;
+      background-color: #181818;
       padding: 2.5rem;
       text-align: center;
       margin-top: 2rem;
       margin: 0 auto; 
+      color: white;
     }
     
     .space {
@@ -65,14 +66,25 @@
       width: 100%; 
     }
     
-    .button {
-      font-size: 125%;
-      max-width: 70%; 
-      margin: 0 auto; 
-      padding: 2.5%;
-      border-radius: 5px;
-      font-family: 'Montserrat', sans-serif;
-    }
+    .primary-btn {
+    padding: 0.7rem 1rem;
+    height: 2.7rem;
+    display: block;
+    border: 0;
+    border-radius: 2px;
+    font-weight: 500;
+    background: #090a5c52;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.5s;
+  }
+  
+  .primary-btn:hover {
+    background-color: #090b5c;
+  }
+
 
     .inputborder {
       border-radius: 5px;
@@ -104,7 +116,7 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="button"  type="submit">Sign Up</button>
+            <button class="primary-btn" type="submit">Sign Up</button>
         </form>
       <br>
     </div>
