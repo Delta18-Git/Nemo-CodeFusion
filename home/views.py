@@ -20,7 +20,7 @@ def helloworld(request):
 
 def loginPage(request):
     if request.user.is_authenticated:
-        return(redirect('first'))#TODO change this to events
+        return(redirect('main'))#TODO change this to main
     if request.method=="POST":
         username=request.POST.get('Fusn')#user.username
         password=request.POST.get('Fpwd')
@@ -33,7 +33,7 @@ def loginPage(request):
         user = authenticate(request,username=username,password=password)
         if user:
             login(request,user)
-            return(redirect('first'))#TODO change to events
+            return(redirect('main'))#TODO change to main
         else:
             messages.error(request,"Username and password don't match.")
     
@@ -62,7 +62,7 @@ def signuppage(request):
     except:
         return(redirect('IDmake'))
 
-def idmakepage(request):
+def idmakepage(request): #Users have a unique USer ID
     try:
         IDCard.objects.get(user=request.user)
     except: #if user doesnt have an id after sign up
@@ -76,4 +76,26 @@ def idmakepage(request):
                 return(redirect('home'))
         else:
             return(render(request,'cardpage.html'))
-    return(redirect('first'))#TODO change to events
+    return(redirect('main'))#TODO change to main
+
+def mainpage(request):
+    return(render(request,'mainpage.html'))
+
+def Income_input(request):
+    pass
+    return(render(request,'income.html'))
+
+def Outgo_input(request):
+    pass
+    return(render(request,'outgo.html'))
+
+def View_balance(request):
+    pass
+    return(render(request,'viewbalance.html'))
+
+
+
+#the moment you open, you see your in, your out, 
+
+#THINK OF MORE UNIQUE FEAUTURES! WE NEED CREATIVITY AND NOVELTY AND APPLICABILITY (doability too)
+#BALANCE, INPUT, OUTPUT, TAXES, (Accounts?), Encryption, Groups/clubs (head oversees expenses, approves?) User can create club/group and be the admin of it and change who the admins are. )
