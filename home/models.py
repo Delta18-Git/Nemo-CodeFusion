@@ -11,21 +11,30 @@ class IDCard(m.Model): # FYI: It has all the attributes of User such as .is_auth
 class Balance(m.Model):
      user = m.ForeignKey(User, on_delete=m.CASCADE,related_name='balance')
      amount = m.DecimalField(max_digits=10, decimal_places=2)
+
+     def __str__(self):
+        return f"{self.user}-{self.amount}"
 #SHOULD we have log in a different model such that it has datetime and all, would make life easier for reading.
 
-class Income(m.Model): #automate inputs via a good gui, WILL NEED TO ADD LOTS MORE, DISCUSS
-    user=m.OneToOneField(User, on_delete=m.CASCADE, related_name='Income') #reciever (you)
-    Amount=m.DecimalField(max_digits=10, decimal_places=2)
-    DTime=m.DateTimeField(null=False)
-    FromUser=m.CharField(max_length=1000,null=True, blank=True)
-    Source=m.CharField(max_length=1000,null=True, blank=True)
-    comments=m.CharField(max_length=10000,null=True, blank=True)
+class Income(m.Model): 
+    user = m.ForeignKey(User, on_delete=m.CASCADE, related_name='income')  # Changed from OneToOneField to ForeignKey
+    Amount = m.DecimalField(max_digits=10, decimal_places=2)
+    DTime = m.DateTimeField(null=False)
+    FromUser = m.CharField(max_length=1000, null=True, blank=True)  # add in frontend later
+    Source = m.CharField(max_length=1000, null=True, blank=True)
+    comments = m.CharField(max_length=10000, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user}-{self.Amount}-{self.DTime}-{self.Source}-{self.comments}"
 
 class Outgo(m.Model): #automate inputs via a good GUI #WILL NEED TO ADD LOTS MORE, DISCUSS
     user=m.OneToOneField(User, on_delete=m.CASCADE, related_name='Outgo') #sender (you)
     Amount=m.DecimalField(max_digits=10, decimal_places=2)
     DTime=m.DateTimeField(null=False)
-    ToUser=m.CharField(max_length=1000,null=True, blank=True)
+    ToUser=m.CharField(max_length=1000,null=True, blank=True) #ADD in frontend later
     Where=m.CharField(max_length=1000,null=True, blank=True)
     Why=m.CharField(max_length=10000,null=True, blank=True) #LATER FIGURE OUT MONEY DRAIN AREA THING
-    comments=m.CharField(max_length=10000,null=True, blank=True)
+    comments=m.CharField(max_length=10000,null=True, blank=True) #TODO ADD reciept pic
+
+    def __str__(self):
+        return f"{self.user}-{self.Amount}-{self.DTime}-{self.Where}-{self.Why}-{self.comments}"

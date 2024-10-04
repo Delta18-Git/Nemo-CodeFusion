@@ -12,7 +12,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib import messages
 from .forms import SignUpForm
-from .models import IDCard
+from .models import *
 
 def helloworld(request):
     return(render(request,'firsthack.html'))
@@ -62,40 +62,69 @@ def signuppage(request):
     except:
         return(redirect('IDmake'))
 
+@login_required(login_url='home')
 def idmakepage(request): #Users have a unique USer ID
     try:
         IDCard.objects.get(user=request.user)
     except: #if user doesnt have an id after sign up
         if request.method=="POST":
             myID=request.POST.get('Fuid')
+            mybal=request.POST.get('Fbal')
             try: 
                 test=IDCard.objects.get(UserID=myID)
                 messages.error(request,'User ID taken, try again.')
             except:
                 ID=IDCard.objects.create(user=request.user,UserID=myID)
+                bala=Balance.objects.create(user=request.user,amount=bal)#automated balance creation
                 return(redirect('home'))
         else:
             return(render(request,'cardpage.html'))
     return(redirect('main'))#TODO change to main
 
+@login_required(login_url='home')
 def mainpage(request):
     return(render(request,'mainpage.html'))
 
+@login_required(login_url='home')
 def Income_input(request):
-    pass
-    return(render(request,'income.html'))
+    user = request.user
+    if request.method == "POST":
+        amount = request.POST.get('Famount')
+        dtime = request.POST.get('FDtime')
+        source = request.POST.get('Fsource')
+        comments = request.POST.get('Fcomments')
+        bal=Balance.objects.get(user=user)
+        bal.amount+=amount
+        Balance.save()
+        inc = Income.objects.create(user=user, Amount=amount, DTime=dtime, Source=source, comments=comments)
+        
+    return render(request, 'income.html')
 
+@login_required(login_url='home')
 def Outgo_input(request):
-    pass
+    user = request.user
+    if request.method == "POST":
+        amount = request.POST.get('Famount')
+        dtime = request.POST.get('FDtime')
+        where = request.POST.get('Fwhere')
+        why = request.POST.get('Fwhy')
+        comments = request.POST.get('Fcomments')
+        bal=Balance.objects.get(user=user)
+        bal.amount-=amount
+        Balance.save()
+        out = Outgo.objects.create(user=user, Amount=amount, DTime=dtime, Where=where ,Why=why ,comments=comments)
     return(render(request,'outgo.html'))
 
+@login_required(login_url='home')
 def View_balance(request):
-    pass
-    return(render(request,'viewbalance.html'))
+    bal=Balance.objects.get(user=request.user).amount
+    print(bal)
+    context={'bal':bal}
+    return(render(request,'viewbalance.html',context))
 
 
 
 #the moment you open, you see your in, your out, 
 
 #THINK OF MORE UNIQUE FEAUTURES! WE NEED CREATIVITY AND NOVELTY AND APPLICABILITY (doability too)
-#BALANCE, INPUT, OUTPUT, TAXES, (Accounts?), Encryption, Groups/clubs (head oversees expenses, approves?) User can create club/group and be the admin of it and change who the admins are. )
+#BALANCE, INPUT, OUTPUT, TAXES, (Accounts?), Groups/clubs (head oversees expenses, approves?) User can create club/group and be the admin of it and change who the admins are. )

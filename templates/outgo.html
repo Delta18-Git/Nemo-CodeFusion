@@ -1,1 +1,27 @@
-THIS IS OUTGO
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet">
+  <style>
+
+  </style>
+</head>
+
+<form method="POST">
+    {% csrf_token %}
+        <label>Amount</label>
+        <input type="Number" name='Famount' class="text-input" />
+        <label>Date & Time</label>
+        <input type="datetime-local" name='FDtime' class="text-input" />
+        <label>Where</label>
+        <input type="text" name='Fwhere'class="text-input" />
+        <label>Why</label>
+        <input type="text" name='Fwhy'class="text-input" />
+        <label>Comments</label>
+        <input type="text" name='Fcomments' class="text-input" />
+        <button type="submit">Submit</button>
+</form>
