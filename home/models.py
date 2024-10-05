@@ -10,7 +10,7 @@ class IDCard(m.Model): # FYI: It has all the attributes of User such as .is_auth
 
 #how bout linked with the id card only we have balance, in logs, out logs, etc? for starters and we can see groups later.
 class Balance(m.Model):
-     user = m.ForeignKey(User, on_delete=m.CASCADE,related_name='balance')
+     user = m.OneToOneField(User, on_delete=m.CASCADE,related_name='balance')
      amount = m.DecimalField(max_digits=10, decimal_places=2)
 
      def __str__(self):
@@ -47,7 +47,7 @@ class Loan(m.Model): #TODO IMP FIGURE OUT AUTOMATION!!!
     loan_amount = m.DecimalField(max_digits=10, decimal_places=2)  # Excluding down payment
     annual_interest_rate = m.DecimalField(max_digits=5, decimal_places=2)  # In percentage
     loan_tenure = m.IntegerField(null=False)  # In years
-    payment_date = m.DateField(auto_created=True)
+    payment_date = m.DateField(default=datetime.now)
     
     def calculate_emi(self):
         global emi

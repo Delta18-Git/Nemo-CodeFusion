@@ -13,6 +13,7 @@ from django.contrib.auth import login
 from django.contrib import messages
 from .forms import SignUpForm
 from .models import *
+import ezgmail
 
 def helloworld(request):
     #Checkloanandsub(request.user)
@@ -166,3 +167,62 @@ def Checkloanandsub(user): # automation of loan and sub billings.
                 out = Outgo.objects.create(user=user, Amount=emi, DTime=datetime.now(), Where='Sub', Why='monthly subscription automatically withdrawn.')
 
 # TAXES, (Accounts?), Groups/clubs (head oversees expenses, approves?) User can create club/group and be the admin of it and change who the admins are. )
+@login_required(login_url='home')
+def Accounts(request): #TODO add back button
+    user=request.user
+    ID=IDCard.objects.get(user=user).UserID
+    balance=Balance.objects.get(user=user).amount
+    incomes=[]
+    outgos=[]
+    a= Income.objects.filter(user=user)
+    for i in a:
+        from datetime import datetime, timedelta
+        today = datetime.today()
+        first_day_last_month = (today.replace(day=1) - timedelta(days=1)).replace(day=1)
+        if i.DTime.day > first_day_last_month.day: #TODO FIX THIS IDK WHATS HAPPENING BUT RIGHT NOW, IM JSUT SHOWING ALL MSGS.
+            incomes.append(i)
+    
+    b=Outgo.objects.filter(user=user)
+    for i in b:
+        from datetime import datetime, timedelta
+        today = datetime.today()
+        first_day_last_month = (today.replace(day=1) - timedelta(days=1)).replace(day=1)
+        if i.DTime.day > first_day_last_month.day:#TODO FIX THIS IDK WHATS HAPPENING BUT RIGHT NOW, IM JSUT SHOWING ALL MSGS.
+            outgos.append(i)
+
+    context={'ID':ID,'balance':balance,'incomes':incomes,'outgoes':outgos}
+
+    return(render(request,'accounts.html',context))
+
+@login_required(login_url='home')
+def emails(request):
+        user=request.user
+        ID=IDCard.objects.get(user=user).UserID
+        balance=Balance.objects.get(user=user).amount
+        incomes=[]
+        outgos=[]
+        a= Income.objects.filter(user=user)
+        for i in a:
+            from datetime import datetime, timedelta
+            today = datetime.today()
+            first_day_last_month = (today.replace(day=1) - timedelta(days=1)).replace(day=1)
+            if i.DTime.day > first_day_last_month.day: #TODO FIX THIS IDK WHATS HAPPENING BUT RIGHT NOW, IM JSUT SHOWING ALL MSGS.
+                incomes.append(i)
+        
+        b=Outgo.objects.filter(user=user)
+        for i in b:
+            from datetime import datetime, timedelta
+            today = datetime.today()
+            first_day_last_month = (today.replace(day=1) - timedelta(days=1)).replace(day=1)
+            if i.DTime.day > first_day_last_month.day:#TODO FIX THIS IDK WHATS HAPPENING BUT RIGHT NOW, IM JSUT SHOWING ALL MSGS.
+                outgos.append(i)
+
+        
+        context={'ID':ID,'balance':balance,'incomes':incomes,'outgoes':outgos}
+        message=f"Accounts: \n ID: {ID} \n\n Balance: {balance} \n\n Incomes: {incomes} \n\n Outflows {outgos}"
+        if request.method=="POST":
+            emails = request.POST.get('Femails')
+            ezgmail.send(emails.split(', '),subject="Accounts", body=message)
+        return(render(request,'emails.html'))
+
+        
