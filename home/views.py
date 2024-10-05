@@ -225,4 +225,11 @@ def emails(request):
             ezgmail.send(emails.split(', '),subject="Accounts", body=message)
         return(render(request,'emails.html'))
 
-        
+def Groups_page(request):
+    #create group button and func
+    #view your groups in a list as
+    return(render(request,'groups.html'))
+#we will have a page called groups and inside that you can create group, and see your groups, also add admin to you group
+#once in a group, you can just upload Ins and Outs as you normally would but in new funcs.abs
+#maybe the admin can delete
+#add members into grp using their ID.

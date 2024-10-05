@@ -7,5 +7,7 @@ admin.site.register(Income)
 admin.site.register(Outgo)
 admin.site.register(Loan)
 admin.site.register(Subscriptions)
+#admin.site.register(Group)
+
 
 # Register your models here.

@@ -15,5 +15,6 @@ urlpatterns=[
     path('subscriptions/',views.subscriptions,name='subscriptions'),
     path('accounts/',views.Accounts,name='accounts'),
     path('mails/',views.emails,name='emails'),
-    
+    path('groups/',views.Groups_page,name='groups'),
+
 ]
