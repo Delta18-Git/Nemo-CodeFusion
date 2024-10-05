@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from django.forms import DateTimeField
 from django.shortcuts import render, redirect
 from django.contrib import messages #this is what we import to get flash messages.
@@ -15,6 +15,7 @@ from .forms import SignUpForm
 from .models import *
 
 def helloworld(request):
+    #Checkloanandsub(request.user)
     return(render(request,'firsthack.html'))
 
 
@@ -38,6 +39,7 @@ def loginPage(request):
             messages.error(request,"Username and password don't match.")
     
     context={}
+    #Checkloanandsub(request.user)
     return(render(request,'login.html',context))
 
 @login_required(login_url='home') #just in case.
@@ -83,6 +85,7 @@ def idmakepage(request): #Users have a unique USer ID
 
 @login_required(login_url='home')
 def mainpage(request):
+    #Checkloanandsub(request.user)
     return(render(request,'mainpage.html'))
 
 @login_required(login_url='home')
@@ -94,10 +97,10 @@ def Income_input(request):
         source = request.POST.get('Fsource')
         comments = request.POST.get('Fcomments')
         bal=Balance.objects.get(user=user)
-        bal.amount=bal.amount + amount
+        bal.amount=bal.amount + int(amount)
         bal.save()
         inc = Income.objects.create(user=user, Amount=amount, DTime=dtime, Source=source, comments=comments)
-        
+        #Checkloanandsub(request.user)
     return render(request, 'income.html')
 
 @login_required(login_url='home')
@@ -110,9 +113,10 @@ def Outgo_input(request): #TODO REciept upload
         why = request.POST.get('Fwhy')
         comments = request.POST.get('Fcomments')
         bal=Balance.objects.get(user=user)
-        bal.amount-=amount
-        Balance.save()
+        bal.amount-=int(amount)
+        bal.save()
         out = Outgo.objects.create(user=user, Amount=amount, DTime=dtime, Where=where ,Why=why ,comments=comments)
+        #Checkloanandsub(request.user)
     return(render(request,'outgo.html'))
 
 @login_required(login_url='home')
@@ -120,6 +124,7 @@ def View_balance(request):
     bal=Balance.objects.get(user=request.user).amount
     print(bal)
     context={'bal':bal}
+    #Checkloanandsub(request.user)
     return(render(request,'viewbalance.html',context))
 
 @login_required(login_url='home')
@@ -141,5 +146,23 @@ def subscriptions(request):
         sub=Subscriptions.objects.create(user=request.user,sub_amount=sub_amount,sub_tenure=sub_tenure)
     return(render(request,'subscriptions.html'))
 
+def Checkloanandsub(user): # automation of loan and sub billings.
+    for i in Loan.objects.filter(user=user):
+        if i.payment_date.day == datetime.today().day and datetime.today().day < i.last_date:
+            emi = i.calculate_emi()  # Use i.calculate_emi() instead of accessing emi directly
+            try:
+                a = datetime.today().day
+                b = Outgo.objects.get(user=user, Amount=emi, DTime=a)
+            except Outgo.DoesNotExist:
+                out = Outgo.objects.create(user=user, Amount=emi, DTime=datetime.now(), Where='Loan', Why='monthly installment automatically withdrawn.')
+
+    for i in Subscriptions.objects.filter(user=user):
+        if i.payment_date.day == datetime.today().day and datetime.today().day < i.last_date:
+            emi = i.sub_amount
+            try:
+                a = datetime.today().day
+                b = Outgo.objects.get(user=user, Amount=emi, DTime=a)
+            except Outgo.DoesNotExist:
+                out = Outgo.objects.create(user=user, Amount=emi, DTime=datetime.now(), Where='Sub', Why='monthly subscription automatically withdrawn.')
 
 # TAXES, (Accounts?), Groups/clubs (head oversees expenses, approves?) User can create club/group and be the admin of it and change who the admins are. )
